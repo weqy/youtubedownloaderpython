@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import *
 import youtube_dl
 ydl_opts = {}
 
@@ -18,13 +19,22 @@ entry1 = tk.Entry(root)
 canvas1.create_window(200, 140, window=entry1)
 
 
+def clear_text():
+    entry1.delete(0, END)
+
+
 def download_video():
     if "https://youtu.be/" in entry1.get():
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             ydl.download([entry1.get()])
-            print("YouTube link downloaded")
+            my_result = tk.Label(root, text='Downloaded video!')
+            my_result.config(font=('helvetica', 10))
+            canvas1.create_window(200, 210, window=my_result)
     else:
-        print("Code not valid!")
+        my_result = tk.Label(root, fg="red", text='Not a YouTube link.')
+        my_result.config(font=('helvetica', 10))
+        canvas1.create_window(200, 210, window=my_result)
+        clear_text()
 
 
 button1 = tk.Button(text='Download', command=download_video, bg='brown', fg='white',
